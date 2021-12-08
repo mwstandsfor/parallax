@@ -4,8 +4,14 @@ var canvas = document.getElementById('canvas');
 // get reference to canvas context
 var context  = canvas.getContext('2d');
 
+
+// Get reference ot loading screen
+var loading_screen = document.getElementById('loading');
+
 // Initialize loading variables
+var loaded = false;
 var load_counter = 0;
+
 
 // Initialize images for layers
 var background = new Image();
@@ -31,7 +37,7 @@ var layer_list = [
     {
         'image': background,
         'src' : './images/layer_0_1.jpg',
-        'z_index': -1,
+        'z_index': 0,
         'position': {x: 0, y:0 },
         'blend': null,
         'opacity': 1
@@ -41,9 +47,9 @@ var layer_list = [
         'image': layer2,
         'src' : './images/layer_2_1.png',
         'z_index': -2.5,
-        'position': {x: 0, y:0 },
+        'position': {x: 0, y: 0 },
         'blend': null,
-        'opacity': 0.8
+        'opacity': 0.75
     }, 
     {
         'image': layer1,
@@ -51,7 +57,7 @@ var layer_list = [
         'z_index': -2.2,
         'position': {x: 0, y:0 },
         'blend': null,
-        'opacity': 1
+        'opacity': 0.5
     }, 
     {
         'image': layer3,
@@ -81,7 +87,7 @@ var layer_list = [
     {
         'image': maskShadow,
         'src' : './images/layer_7_1.png',
-        'z_index': -0.15 ,
+        'z_index': -0.15,
         'position': {x: 0, y:0 },
         'blend': 'multiply',
         'opacity': 0.8
@@ -98,7 +104,7 @@ var layer_list = [
         //floaties
         'image': layer6,
         'src' : './images/layer_6_1.png',
-        'z_index': 1 ,
+        'z_index': 0.15,
         'position': {x: 0, y:0 },
         'blend': null,
         'opacity': 1
@@ -112,12 +118,21 @@ layer_list.forEach(function(layer, index) {
         load_counter += 1;
         // Checks if all the images are loaded
         if (load_counter >= layer_list.length) {
-            // Start the render Loop!
+            
+            // hide loading screen
+            hideLoading();
+
+            // start animation
             requestAnimationFrame(drawCanvas);
         }
     }
     layer.image.src = layer.src;
 });
+
+
+function hideLoading() {
+    loading_screen.classList.add('hidden');
+}
 
 
 // Draw layers in Canvas
